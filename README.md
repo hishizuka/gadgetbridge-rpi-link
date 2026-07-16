@@ -38,6 +38,14 @@ for protocol details.
 
   <img src="docs/assets/android-gps-to-raspberry-pi.svg" alt="Phone GPS positions forwarded to a Raspberry Pi" width="560">
 
+- **Use the phone as a time source when the Raspberry Pi has no RTC.** The
+  library parses Gadgetbridge `setTime(...)` messages into `SetTimeEvent`
+  objects that a host application can apply to the system clock. The time
+  arrives only after the BLE connection and Gadgetbridge synchronization, not
+  immediately at boot, so timestamps created before then may be incorrect.
+
+  <img src="docs/assets/android-time-to-raspberry-pi.svg" alt="Phone time forwarded to a Raspberry Pi after Gadgetbridge connects" width="560">
+
 - **Read Google Maps turn-by-turn navigation.** Gadgetbridge converts Android
   navigation notifications into navigation packets that this library parses
   into distance/action/instruction fields.
@@ -106,8 +114,9 @@ hosting.
 Implemented in the package:
 
 - UART frame decoding, TX chunk encoding, and `GB(...)` JSON-ish parsing.
-- Typed events for notifications, find-device requests, time sync, location,
-  navigation, HTTP responses, parse failures, and unknown messages.
+- Typed events for notifications, find-device requests, phone time
+  (`setTime(...)`), location, navigation, HTTP responses, parse failures, and
+  unknown messages.
 - Outgoing GPS power requests, Android intents, and HTTP requests.
 - Async HTTP request tracking and text-oriented download helpers.
 - A BlueZ BLE UART host for Linux.
@@ -149,6 +158,30 @@ events = protocol.feed_rx(
 )
 print(events[0])
 ```
+
+## System Time Example
+
+For a Raspberry Pi without an RTC, the phone can provide a time source after
+Gadgetbridge connects. The library emits a `SetTimeEvent`; the host application
+is responsible for applying it to the system clock.
+
+From a source checkout, stop any other BLE host and run the example in dry-run
+mode first:
+
+```sh
+PYTHONPATH=src python3 examples/set_system_time.py
+```
+
+After confirming that `setTime` events arrive and configuring the required
+system permission, pass `--apply` to execute `sudo -n date -u --set ...`:
+
+```sh
+PYTHONPATH=src python3 examples/set_system_time.py --apply
+```
+
+This is not an immediate boot-time replacement for an RTC: the clock remains
+uncorrected until Android connects and Gadgetbridge sends the time. Hardware
+validation of this example is still pending, so test it in dry-run mode first.
 
 ## Session HTTP Example
 

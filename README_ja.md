@@ -37,6 +37,14 @@ UIの描画やデータの保存などは、ホストアプリケーション側
 
   <img src="docs/assets/android-gps-to-raspberry-pi.svg" alt="スマホのGPS位置情報をRaspberry Piへ転送" width="560">
 
+- **RTCを搭載しないRaspberry Piの時刻をスマートフォンから取得する。** 本ライブラリ
+  はGadgetbridgeの`setTime(...)`メッセージを`SetTimeEvent`としてパースし、ホスト
+  アプリケーションでシステム時刻に反映できます。時刻情報は起動直後ではなく、BLE
+  接続とGadgetbridgeの同期後に届くため、それ以前に記録したタイムスタンプは正しく
+  ない場合があります。
+
+  <img src="docs/assets/android-time-to-raspberry-pi.svg" alt="Gadgetbridge接続後にスマートフォンの時刻をRaspberry Piへ反映" width="560">
+
 - **Google Mapsのターンバイターンナビゲーションを読み取る。** Gadgetbridgeは
   Androidのナビゲーション通知をナビゲーションパケットに変換し、本ライブラリが
   距離/アクション/指示の各フィールドにパースします。
@@ -107,8 +115,8 @@ BlueZを利用できるLinux環境も必要です。
 
 - UARTフレームのデコード、TXチャンクのエンコード、`GB(...)`形式のJSON風
   メッセージのパース。
-- 通知、デバイス探索、時刻同期、位置情報、ナビゲーション、HTTPレスポンス、
-  パース失敗、未知メッセージの型付きイベント。
+- 通知、デバイス探索、スマートフォン時刻(`setTime(...)`)、位置情報、
+  ナビゲーション、HTTPレスポンス、パース失敗、未知メッセージの型付きイベント。
 - GPS電源要求、Androidインテント、HTTPリクエストの送信。
 - HTTPリクエストの非同期追跡とテキスト向けダウンロードヘルパー。
 - Linux向けBlueZ BLE UARTホスト。
@@ -150,6 +158,30 @@ events = protocol.feed_rx(
 )
 print(events[0])
 ```
+
+## システム時刻設定の例
+
+RTCを搭載しないRaspberry Piでは、Gadgetbridge接続後にスマートフォンを時刻情報源
+として利用できます。本ライブラリは`SetTimeEvent`を生成し、実際のシステム時刻への
+反映はホストアプリケーションが行います。
+
+ソースチェックアウトから、ほかのBLEホストを停止したうえで、まずdry-runモードで
+exampleを実行します。
+
+```sh
+PYTHONPATH=src python3 examples/set_system_time.py
+```
+
+`setTime`イベントを受信できることを確認し、必要なシステム権限を設定した後、
+`--apply`を付けると`sudo -n date -u --set ...`を実行します。
+
+```sh
+PYTHONPATH=src python3 examples/set_system_time.py --apply
+```
+
+これは起動直後から利用できるRTCの完全な代替ではありません。Androidが接続し、
+Gadgetbridgeから時刻が届くまで時計は補正されません。このexampleは実機検証前の
+ため、最初はdry-runモードで確認してください。
 
 ## セッションHTTPの例
 

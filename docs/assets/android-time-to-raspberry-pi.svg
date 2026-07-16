@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="424" viewBox="0 0 960 424" role="img" aria-labelledby="title desc">
+  <title id="title">Phone time forwarded to a Raspberry Pi after Gadgetbridge connects</title>
+  <desc id="desc">Diagram showing Android sending a setTime message through Gadgetbridge over BLE UART after connection, producing a SetTimeEvent that a Raspberry Pi host application applies to the system clock.</desc>
+
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#1f2937" flood-opacity="0.18"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb"/>
+    </marker>
+    <linearGradient id="screen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e8f0fe"/>
+      <stop offset="1" stop-color="#f6f9ff"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="960" height="424" rx="24" fill="#f8fafc"/>
+
+  <!-- Android label and a generic phone icon. -->
+  <g transform="translate(100 27)">
+    <rect x="0" y="2" width="27" height="24" rx="8" fill="#34a853"/>
+    <line x1="6" y1="4" x2="2" y2="-2" stroke="#34a853" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="21" y1="4" x2="25" y2="-2" stroke="#34a853" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="8" cy="11" r="1.7" fill="#ffffff"/>
+    <circle cx="19" cy="11" r="1.7" fill="#ffffff"/>
+    <text x="43" y="24" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#1f2937">Android</text>
+  </g>
+
+  <!-- Android phone showing an accurate clock and Gadgetbridge connection. -->
+  <g transform="translate(90 72)" filter="url(#shadow)">
+    <rect x="171" y="88" width="3.5" height="36" rx="1.75" fill="#33383f"/>
+    <rect x="171" y="134" width="3.5" height="24" rx="1.75" fill="#33383f"/>
+    <rect x="0" y="0" width="172" height="300" rx="26" fill="#16181d" stroke="#2f333a"/>
+    <rect x="7" y="7" width="158" height="286" rx="20" fill="url(#screen)"/>
+    <circle cx="86" cy="20" r="4" fill="#0b0e13"/>
+    <path d="M 124 26 l 8 0 0 -7 z" fill="#475569"/>
+    <rect x="137" y="19" width="13" height="7" rx="2" fill="none" stroke="#475569"/>
+    <rect x="138.5" y="20.5" width="8" height="4" fill="#475569"/>
+
+    <circle cx="86" cy="94" r="42" fill="#ffffff" stroke="#dbe4f0" stroke-width="2"/>
+    <line x1="86" y1="94" x2="97" y2="119" stroke="#2563eb" stroke-width="4" stroke-linecap="round"/>
+    <line x1="86" y1="94" x2="67" y2="89" stroke="#2563eb" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="86" cy="94" r="4" fill="#2563eb"/>
+    <text x="86" y="160" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" fill="#0f172a">09:26</text>
+    <text x="86" y="184" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#64748b">PHONE TIME</text>
+
+    <rect x="22" y="207" width="128" height="54" rx="12" fill="#ffffff" stroke="#dbe4f0"/>
+    <circle cx="42" cy="234" r="10" fill="#34a853"/>
+    <path d="M 37 234 l 4 4 7 -8" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="59" y="230" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#334155">Gadgetbridge</text>
+    <text x="59" y="248" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#64748b">connected</text>
+    <rect x="62" y="282" width="48" height="4" rx="2" fill="#0f172a" opacity="0.3"/>
+  </g>
+
+  <!-- Gadgetbridge setTime message and BLE transport. -->
+  <g>
+    <text x="456" y="54" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#334155">Gadgetbridge</text>
+    <rect x="306" y="68" width="300" height="104" rx="12" fill="#dbeafe" stroke="#93c5fd"/>
+    <text x="456" y="108" text-anchor="middle" font-family="Menlo, Consolas, monospace" font-size="21" font-weight="700" fill="#1e3a8a">setTime(1782181599);</text>
+    <text x="456" y="142" text-anchor="middle" font-family="Menlo, Consolas, monospace" font-size="20" font-weight="700" fill="#1e3a8a">E.setTimeZone(9);</text>
+
+    <line x1="316" y1="205" x2="596" y2="205" stroke="#2563eb" stroke-width="5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    <path d="M 596 205 L 582 197 L 582 213 z" fill="#2563eb"/>
+    <circle cx="456" cy="205" r="14" fill="#2563eb"/>
+    <path d="M 456 196.5 L 456 213.5 M 456 196.5 L 461.5 201 L 450.5 209 M 456 213.5 L 461.5 209 L 450.5 201" fill="none" stroke="#ffffff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="340" y="240" width="232" height="70" rx="12" fill="#fff7ed" stroke="#fdba74"/>
+    <text x="456" y="267" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#9a3412">After BLE connects</text>
+    <text x="456" y="294" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#9a3412">not immediately at boot</text>
+  </g>
+
+  <!-- Raspberry Pi label and a generic board icon. -->
+  <g transform="translate(657 27)">
+    <rect x="0" y="1" width="30" height="25" rx="5" fill="#166534"/>
+    <rect x="7" y="7" width="16" height="12" rx="2" fill="#0f172a"/>
+    <g stroke="#eab308" stroke-width="2">
+      <line x1="5" y1="-2" x2="5" y2="3"/>
+      <line x1="12" y1="-2" x2="12" y2="3"/>
+      <line x1="19" y1="-2" x2="19" y2="3"/>
+      <line x1="26" y1="-2" x2="26" y2="3"/>
+    </g>
+    <text x="44" y="24" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#1f2937">Raspberry Pi</text>
+  </g>
+
+  <!-- Raspberry Pi board and host application applying SetTimeEvent. -->
+  <g transform="translate(650 131)" filter="url(#shadow)">
+    <rect width="232" height="182" rx="10" fill="#166534" stroke="#14532d"/>
+    <circle cx="14" cy="14" r="5" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+    <circle cx="218" cy="14" r="5" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+    <circle cx="14" cy="168" r="5" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+    <circle cx="218" cy="168" r="5" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+    <rect x="46" y="5" width="140" height="11" rx="2" fill="#0a0a0a"/>
+    <g fill="#eab308">
+      <rect x="52" y="8" width="5" height="5"/><rect x="63" y="8" width="5" height="5"/>
+      <rect x="74" y="8" width="5" height="5"/><rect x="85" y="8" width="5" height="5"/>
+      <rect x="96" y="8" width="5" height="5"/><rect x="107" y="8" width="5" height="5"/>
+      <rect x="118" y="8" width="5" height="5"/><rect x="129" y="8" width="5" height="5"/>
+      <rect x="140" y="8" width="5" height="5"/><rect x="151" y="8" width="5" height="5"/>
+      <rect x="162" y="8" width="5" height="5"/><rect x="173" y="8" width="5" height="5"/>
+    </g>
+    <rect x="16" y="26" width="200" height="140" rx="6" fill="#0f172a"/>
+    <rect x="24" y="34" width="184" height="124" rx="3" fill="url(#screen)"/>
+    <text x="116" y="61" text-anchor="middle" font-family="Menlo, Consolas, monospace" font-size="15" font-weight="700" fill="#2563eb">SetTimeEvent</text>
+    <line x1="116" y1="70" x2="116" y2="86" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="42" y="89" width="148" height="54" rx="10" fill="#ffffff" stroke="#bbf7d0"/>
+    <text x="116" y="116" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#0f172a">09:26</text>
+    <circle cx="174" cy="108" r="10" fill="#22c55e"/>
+    <path d="M 169 108 l 4 4 7 -8" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="116" y="136" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="700" fill="#15803d">CLOCK CORRECTED</text>
+  </g>
+
+  <text x="480" y="402" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#64748b">The host application applies the parsed phone time to the Linux system clock.</text>
+</svg>

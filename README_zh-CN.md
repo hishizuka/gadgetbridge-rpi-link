@@ -33,6 +33,13 @@ Gadgetbridge，并将收到的消息作为 Python 事件处理。UI 绘制、数
 
   <img src="docs/assets/android-gps-to-raspberry-pi.svg" alt="将手机 GPS 位置转发到 Raspberry Pi" width="560">
 
+- **在 Raspberry Pi 没有 RTC 时使用手机提供时间。** 本库会将 Gadgetbridge 的
+  `setTime(...)`消息解析为`SetTimeEvent`，宿主应用可以将其应用到系统时钟。时间信息
+  只会在 BLE 连接和 Gadgetbridge 同步后到达，而不是开机后立即到达，因此在此之前
+  记录的时间戳可能不正确。
+
+  <img src="docs/assets/android-time-to-raspberry-pi.svg" alt="Gadgetbridge连接后将手机时间应用到Raspberry Pi" width="560">
+
 - **读取 Google Maps 逐向导航。** Gadgetbridge 将 Android 导航通知转换为导航
   数据包，本库再将其解析为距离、动作和指示字段。
 
@@ -95,8 +102,8 @@ Linux 环境。
 本软件包实现了以下功能：
 
 - UART 帧解码、TX 分块编码，以及`GB(...)`形式的类 JSON 消息解析。
-- 通知、查找设备请求、时间同步、位置、导航、HTTP 响应、解析失败和未知消息的
-  带类型事件。
+- 通知、查找设备请求、手机时间（`setTime(...)`）、位置、导航、HTTP 响应、解析失败
+  和未知消息的带类型事件。
 - 发送 GPS 电源请求、Android Intent 和 HTTP 请求。
 - 异步 HTTP 请求跟踪和面向文本的下载辅助函数。
 - 面向 Linux 的 BlueZ BLE UART 主机。
@@ -136,6 +143,27 @@ events = protocol.feed_rx(
 )
 print(events[0])
 ```
+
+## 系统时间设置示例
+
+对于没有 RTC 的 Raspberry Pi，可以在 Gadgetbridge 连接后使用手机作为时间源。本库
+会生成`SetTimeEvent`，实际更新系统时钟的操作由宿主应用负责。
+
+从源码检出目录运行时，请先停止其他 BLE 主机，然后先以试运行模式启动示例：
+
+```sh
+PYTHONPATH=src python3 examples/set_system_time.py
+```
+
+确认能够收到`setTime`事件并配置所需的系统权限后，添加`--apply`即可执行
+`sudo -n date -u --set ...`：
+
+```sh
+PYTHONPATH=src python3 examples/set_system_time.py --apply
+```
+
+它不能完全替代开机后立即可用的 RTC：在 Android 连接并由 Gadgetbridge 发送时间前，
+系统时钟不会得到校正。此示例尚未经过真机验证，因此请先使用试运行模式进行确认。
 
 ## 会话 HTTP 示例
 
