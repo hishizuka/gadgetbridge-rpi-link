@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="424" viewBox="0 0 960 424" role="img" aria-labelledby="title desc">
+  <title id="title">Android notification text forwarded to a Raspberry Pi TFT display</title>
+  <desc id="desc">Diagram showing notification text on a modern Android phone forwarded through Gadgetbridge over BLE UART to a small TFT display attached to a Raspberry Pi.</desc>
+  <!--
+    The Android robot is reproduced or modified from work created and shared by
+    Google and used according to terms described in the Creative Commons 3.0
+    Attribution License. Raspberry Pi is a trademark of Raspberry Pi Ltd; the
+    Raspberry Pi logo is used here to refer to Raspberry Pi hardware.
+  -->
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#1f2937" flood-opacity="0.18"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb"/>
+    </marker>
+    <linearGradient id="screen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e8f0fe"/>
+      <stop offset="1" stop-color="#f6f9ff"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="960" height="424" rx="24" fill="#f8fafc"/>
+
+  <!-- Android column label: official Android robot head + name -->
+  <g transform="translate(103 24)">
+    <g transform="scale(1.5)" fill="#34A853">
+      <path d="M18.4395 5.5586c-.675 1.1664-1.352 2.3318-2.0274 3.498-.0366-.0155-.0742-.0286-.1113-.043-1.8249-.6957-3.484-.8-4.42-.787-1.8551.0185-3.3544.4643-4.2597.8203-.084-.1494-1.7526-3.021-2.0215-3.4864a1.1451 1.1451 0 0 0-.1406-.1914c-.3312-.364-.9054-.4859-1.379-.203-.475.282-.7136.9361-.3886 1.5019 1.9466 3.3696-.0966-.2158 1.9473 3.3593.0172.031-.4946.2642-1.3926 1.0177C2.8987 12.176.452 14.772 0 18.9902h24c-.119-1.1108-.3686-2.099-.7461-3.0683-.7438-1.9118-1.8435-3.2928-2.7402-4.1836a12.1048 12.1048 0 0 0-2.1309-1.6875c.6594-1.122 1.312-2.2559 1.9649-3.3848.2077-.3615.1886-.7956-.0079-1.1191a1.1001 1.1001 0 0 0-.8515-.5332c-.5225-.0536-.9392.3128-1.0488.5449zm-.0391 8.461c.3944.5926.324 1.3306-.1563 1.6503-.4799.3197-1.188.0985-1.582-.4941-.3944-.5927-.324-1.3307.1563-1.6504.4727-.315 1.1812-.1086 1.582.4941zM7.207 13.5273c.4803.3197.5506 1.0577.1563 1.6504-.394.5926-1.1038.8138-1.584.4941-.48-.3197-.5503-1.0577-.1563-1.6504.4008-.6021 1.1087-.8106 1.584-.4941z"/>
+    </g>
+    <text x="46" y="27" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#1f2937">Android</text>
+  </g>
+
+  <!-- Raspberry Pi column label: official full-colour Raspberry Pi logo + name, just above the board -->
+  <g transform="translate(668 76)">
+    <g transform="translate(2 -2) scale(0.109)">
+      <path fill="#000000" d="M74.19.005c-1.77.055-3.676.708-5.838 2.415C63.057.377 57.922-.332 53.33 3.826c-7.091-.919-9.395.978-11.141 3.194-1.557-.032-11.648-1.6-16.275 5.303-11.629-1.376-15.305 6.841-11.141 14.502-2.375 3.677-4.836 7.309.718 14.319-1.965 3.904-.747 8.139 3.882 13.265-1.222 5.488 1.18 9.36 5.486 12.378-.806 7.51 6.887 11.876 9.184 13.433.882 4.376 2.72 8.505 11.507 10.789 1.449 6.521 6.73 7.648 11.844 9.017-16.901 9.824-31.396 22.75-31.297 54.466l-2.476 4.417c-19.379 11.785-36.815 49.664-9.55 80.453 1.781 9.637 4.768 16.56 7.427 24.221 3.978 30.873 29.937 45.328 36.783 47.037C68.315 318.26 79 325.512 93.46 330.591c13.631 14.06 28.399 19.417 43.247 19.408.218 0 .439.003.657 0 14.849.009 29.616-5.349 43.248-19.408 14.459-5.079 25.146-12.331 35.179-19.974 6.847-1.709 32.806-16.164 36.783-47.037 2.659-7.661 5.646-14.584 7.427-24.221 27.265-30.791 9.83-68.672-9.551-80.458l-2.479-4.416c.098-31.713-14.396-44.64-31.297-54.466 5.113-1.369 10.395-2.495 11.843-9.017 8.786-2.284 10.626-6.413 11.507-10.789 2.297-1.556 9.99-5.922 9.185-13.433 4.306-3.018 6.708-6.89 5.485-12.378 4.629-5.125 5.848-9.36 3.883-13.265 5.555-7.006 3.09-10.639.719-14.316 4.161-7.662.488-15.878-11.145-14.502-4.627-6.903-14.715-5.335-16.275-5.303-1.746-2.215-4.049-4.113-11.139-3.194-4.593-4.157-9.727-3.448-15.023-1.406-6.289-4.962-10.45-.984-15.203.52-7.614-2.488-9.355.92-13.096 2.308-8.304-1.754-10.827 2.065-14.808 6.098l-4.63-.092c-12.524 7.381-18.746 22.41-20.952 30.135-2.207-7.727-8.414-22.756-20.936-30.135l-4.63.092c-3.986-4.032-6.509-7.852-14.813-6.098C92.907 3.858 91.17.45 83.552 2.938c-3.12-.987-5.989-3.039-9.368-2.934l.006.001z"/>
+      <path fill="#BC1142" fill-rule="evenodd" clip-rule="evenodd" d="M177.65 253.658v-.391c-.119-20.27-18.029-36.609-40.01-36.5-21.979.101-39.709 16.621-39.59 36.891v.39c.11 20.271 18.03 36.61 40.01 36.5 21.981-.1 39.701-16.62 39.59-36.89zm-62.83-104.84c-16.489-10.811-40.26-3.83-53.079 15.57-12.83 19.41-9.86 43.9 6.64 54.7 16.49 10.811 40.25 3.84 53.08-15.57 12.82-19.411 9.85-43.9-6.641-54.7zm44.511-1.961c-16.49 10.811-19.47 35.301-6.64 54.702 12.819 19.41 36.59 26.379 53.08 15.58 16.489-10.811 19.459-35.301 6.64-54.702-12.83-19.41-36.591-26.379-53.08-15.58zM32.392 166.478c-29.54 16.87-24.41 54.411-8.471 67.23 14.49 6.431 26.28-72 8.471-67.23zm205.769-.98c-17.81-4.77-6.011 73.67 8.47 67.231 15.939-12.811 21.07-50.361-8.47-67.231zm-60.5-58.4c-11.32 1.9 54.25 59.16 55.26 46.38 1.04-33.32-24.53-51.57-55.26-46.38zm-84.9-.98c-30.729-5.19-56.289 13.069-55.26 46.39 1.01 12.769 66.58-44.49 55.26-46.39zm44.139-7.77c-18.34-.48-35.939 13.61-35.979 21.78-.05 9.931 14.5 20.101 36.11 20.351 22.06.16 36.14-8.131 36.21-18.381.079-11.61-20.07-23.931-36.341-23.75zm1.121 203.6c-15.891-.39-40.261 6.37-39.961 15.03-.25 5.91 19.131 22.959 38.9 22.109 19.09.33 38.811-16.699 38.55-24.23-.039-7.759-21.499-13.599-37.489-12.909zm-59.06-45.969c-13.061-15.16-30.029-24.201-41.02-17.51-7.351 5.59-8.69 24.619 1.77 43.319 15.51 22.29 37.34 24.521 46.33 19.101 9.5-7.101 4.311-31.201-7.08-44.91zm115.84-4.361c-12.32 14.43-19.17 40.75-10.189 49.22 8.59 6.59 31.649 5.67 48.689-17.97 12.37-15.88 8.221-42.39 1.16-49.431-10.5-8.119-25.561 2.271-39.66 18.181z"/>
+      <path fill="#75A928" fill-rule="evenodd" clip-rule="evenodd" d="M49.247 32.48c25.851 8.78 49.17 20.491 68.71 36.6 22.939-10.85 7.12-38.21-4.07-49.07-.57 2.87-1.209 4.68-1.949 5.22-3.641-3.97-6.621-8.03-11.311-11.85-.02 2.24 1.11 4.68-1.68 6.46-2.52-3.44-5.92-6.51-10.44-9.11 2.181 3.81.38 4.96-.79 6.54-3.449-3-6.729-6.04-13.09-8.4 1.74 2.15 4.17 4.25 1.59 6.72-3.55-2.25-7.119-4.5-15.56-6.1 1.899 2.15 5.84 4.3 3.45 6.46-4.461-1.73-9.391-2.99-14.851-3.72 2.61 2.19 4.79 4.32 2.65 6.01-4.771-1.49-11.34-3.49-17.77-1.76l4.07 4.15c.45.56-9.52.43-16.09.53 2.4 3.39 4.84 6.65 6.27 12.47-.65.67-3.91.29-6.98 0 3.15 6.73 8.62 8.43 9.9 11.31-1.93 1.48-4.6 1.1-7.52.09 2.27 4.75 7.03 8 10.79 11.85-.95.681-2.61 1.091-6.54.62 3.47 3.74 7.67 7.17 12.64 10.25-.88 1.04-3.91.99-6.72 1.061 4.51 4.479 10.3 6.799 15.74 9.729-2.71 1.88-4.65 1.44-6.72 1.41 3.839 3.21 10.38 4.88 16.44 6.81-1.149 1.82-2.3 2.32-4.771 2.83 6.42 3.61 15.621 1.96 18.211 3.801-.62 1.81-2.391 2.989-4.51 3.979 10.34.61 38.609-.38 44.029-22.101C101.796 63.46 82.476 49.61 49.247 32.48zm176.309 0c-33.219 17.13-52.539 30.98-63.119 42.79 5.42 21.721 33.689 22.711 44.029 22.101-2.119-.99-3.889-2.17-4.51-3.979 2.59-1.841 11.791-.19 18.211-3.801-2.471-.51-3.621-1.01-4.771-2.83 6.061-1.93 12.602-3.6 16.441-6.81-2.07.03-4.01.47-6.721-1.41 5.439-2.931 11.23-5.25 15.74-9.729-2.811-.07-5.84-.021-6.721-1.061 4.971-3.08 9.17-6.51 12.641-10.25-3.93.471-5.59.061-6.539-.62 3.76-3.851 8.52-7.1 10.789-11.85-2.92 1.01-5.59 1.39-7.52-.09 1.279-2.88 6.75-4.58 9.9-11.31-3.07.29-6.33.67-6.98 0 1.43-5.82 3.879-9.09 6.279-12.47-6.58-.1-16.549.03-16.1-.53l4.07-4.16c-6.42-1.73-13 .28-17.77 1.77-2.141-1.69.039-3.83 2.648-6.01-5.459.73-10.389 1.98-14.85 3.71-2.379-2.15 1.551-4.3 3.451-6.45-8.441 1.6-12.012 3.85-15.561 6.1-2.58-2.47-.15-4.57 1.59-6.72-6.359 2.36-9.641 5.4-13.09 8.4-1.17-1.58-2.971-2.74-.791-6.54-4.52 2.6-7.92 5.67-10.43 9.1-2.799-1.78-1.67-4.21-1.68-6.45-4.699 3.82-7.68 7.88-11.32 11.85-.73-.54-1.379-2.35-1.949-5.22-11.189 10.86-27.01 38.221-4.061 49.07 19.524-16.11 42.844-27.821 68.694-36.601z"/>
+    </g>
+    <text x="44" y="27" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#1f2937">Raspberry Pi</text>
+  </g>
+
+  <!-- Modern Android phone: thin bezel, punch-hole camera, gesture bar -->
+  <g transform="translate(90 72)" filter="url(#shadow)">
+    <rect x="171" y="88" width="3.5" height="36" rx="1.75" fill="#33383f"/>
+    <rect x="171" y="134" width="3.5" height="24" rx="1.75" fill="#33383f"/>
+    <rect x="0" y="0" width="172" height="300" rx="26" fill="#16181d" stroke="#2f333a" stroke-width="1"/>
+    <rect x="7" y="7" width="158" height="286" rx="20" fill="url(#screen)"/>
+    <circle cx="86" cy="20" r="4" fill="#0b0e13"/>
+    <text x="22" y="28" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#475569">3:14</text>
+    <path d="M 124 26 l 8 0 0 -7 z" fill="#475569"/>
+    <rect x="137" y="19" width="13" height="7" rx="2" fill="none" stroke="#475569"/>
+    <rect x="138.5" y="20.5" width="8" height="4" fill="#475569"/>
+    <!-- Notification card -->
+    <rect x="14" y="46" width="144" height="76" rx="14" fill="#ffffff" stroke="#dbe4f0"/>
+    <circle cx="34" cy="84" r="12" fill="#22c55e"/>
+    <rect x="27" y="77.5" width="14" height="10" rx="4" fill="#ffffff"/>
+    <path d="M 31 87 l -3 5 6 -2.7 z" fill="#ffffff"/>
+    <text x="54" y="79" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#0f172a">Message</text>
+    <text x="54" y="106" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#334155">Hello World</text>
+    <!-- Second, faded notification -->
+    <g opacity="0.65">
+      <rect x="14" y="132" width="144" height="46" rx="13" fill="#ffffff" stroke="#dbe4f0"/>
+      <circle cx="34" cy="155" r="10" fill="#bfdbfe"/>
+      <rect x="52" y="144" width="72" height="8" rx="4" fill="#dbe6f3"/>
+      <rect x="52" y="159" width="48" height="8" rx="4" fill="#e8eef7"/>
+    </g>
+    <rect x="62" y="282" width="48" height="4" rx="2" fill="#0f172a" opacity="0.3"/>
+  </g>
+
+  <!-- Gadgetbridge BLE link: packet above, short solid arrow with Bluetooth badge -->
+  <g transform="translate(0 -36)">
+    <text x="456" y="114" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#334155">Gadgetbridge</text>
+    <rect x="296" y="126" width="320" height="110" rx="12" fill="#dbeafe" stroke="#93c5fd"/>
+    <text x="456" y="160" text-anchor="middle" font-family="Menlo, Consolas, monospace" font-size="22" font-weight="700" fill="#1e3a8a">GB({"t":"notify",</text>
+    <text x="456" y="190" text-anchor="middle" font-family="Menlo, Consolas, monospace" font-size="22" font-weight="700" fill="#1e3a8a">"title":"Message",</text>
+    <text x="456" y="220" text-anchor="middle" font-family="Menlo, Consolas, monospace" font-size="22" font-weight="700" fill="#1e3a8a">"body":"Hello World"})</text>
+    <line x1="316" y1="258" x2="596" y2="258" stroke="#2563eb" stroke-width="5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    <circle cx="456" cy="258" r="14" fill="#2563eb"/>
+    <path d="M 456 249.5 L 456 266.5 M 456 249.5 L 461.5 254 L 450.5 262 M 456 266.5 L 461.5 262 L 450.5 254" fill="none" stroke="#ffffff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Small TFT display module on a PCB, no stand -->
+  <g transform="translate(650 131)" filter="url(#shadow)">
+    <rect x="0" y="0" width="232" height="182" rx="10" fill="#166534" stroke="#14532d"/>
+    <circle cx="14" cy="14" r="5" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+    <circle cx="218" cy="14" r="5" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+    <circle cx="14" cy="168" r="5" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+    <circle cx="218" cy="168" r="5" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+    <!-- GPIO header strip -->
+    <rect x="46" y="5" width="140" height="11" rx="2" fill="#0a0a0a"/>
+    <g fill="#eab308">
+      <rect x="52" y="8" width="5" height="5"/>
+      <rect x="63" y="8" width="5" height="5"/>
+      <rect x="74" y="8" width="5" height="5"/>
+      <rect x="85" y="8" width="5" height="5"/>
+      <rect x="96" y="8" width="5" height="5"/>
+      <rect x="107" y="8" width="5" height="5"/>
+      <rect x="118" y="8" width="5" height="5"/>
+      <rect x="129" y="8" width="5" height="5"/>
+      <rect x="140" y="8" width="5" height="5"/>
+      <rect x="151" y="8" width="5" height="5"/>
+      <rect x="162" y="8" width="5" height="5"/>
+      <rect x="173" y="8" width="5" height="5"/>
+    </g>
+    <rect x="16" y="26" width="200" height="140" rx="6" fill="#0f172a"/>
+    <rect x="24" y="34" width="184" height="124" rx="3" fill="url(#screen)"/>
+    <!-- Rendered notification text (host app draws text only) -->
+    <rect x="34" y="56" width="164" height="80" rx="12" fill="#ffffff" stroke="#dbe4f0"/>
+    <text x="50" y="90" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#0f172a">Message</text>
+    <text x="50" y="120" font-family="Arial, Helvetica, sans-serif" font-size="20" fill="#334155">Hello World</text>
+  </g>
+
+  <text x="480" y="401" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="9" fill="#94a3b8">The Android robot is reproduced or modified from work created and shared by Google and used according to terms described in the Creative Commons 3.0 Attribution License.</text>
+  <text x="480" y="414" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="9" fill="#94a3b8">Raspberry Pi is a trademark of Raspberry Pi Ltd.</text>
+</svg>

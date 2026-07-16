@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gadgetbridge-rpi-link"
+version = "0.1.0"
+description = "Unofficial Gadgetbridge UART link toolkit for small Linux devices."
+readme = "README.md"
+requires-python = ">=3.13"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "gadgetbridge-rpi-link contributors" }]
+dependencies = ["bluez-peripheral>=0.2.0a3,<0.3"]
+keywords = ["banglejs", "ble", "bluez", "gadgetbridge", "raspberry-pi", "uart"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Communications",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+
+[project.urls]
+"Protocol Reference" = "https://www.espruino.com/Gadgetbridge"
+"Upstream Gadgetbridge" = "https://gadgetbridge.org/"
+
+[project.scripts]
+gadgetbridge-rpi-bluez = "gadgetbridge_rpi_link.cli.bluez_host:cli"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+gadgetbridge_rpi_link = ["py.typed"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
