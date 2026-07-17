@@ -1,6 +1,6 @@
 # gadgetbridge-rpi-link
 
-English | [日本語](README_ja.md) | [简体中文](README_zh-CN.md)
+English | [日本語](https://github.com/hishizuka/gadgetbridge-rpi-link/blob/main/README_ja.md) | [简体中文](https://github.com/hishizuka/gadgetbridge-rpi-link/blob/main/README_zh-CN.md)
 
 Use an Android phone as a wireless companion for a Raspberry Pi: notifications,
 phone GPS, and simple internet access over a single battery-friendly BLE
@@ -30,13 +30,13 @@ for protocol details.
   CJK or other multibyte text, a small Gadgetbridge source change is currently
   required; see [Text Encoding](#text-encoding).
 
-  <img src="docs/assets/android-notification-to-raspberry-pi.svg" alt="Android notification forwarded to a Raspberry Pi display" width="560">
+  <img src="https://raw.githubusercontent.com/hishizuka/gadgetbridge-rpi-link/main/docs/assets/android-notification-to-raspberry-pi.svg" alt="Android notification forwarded to a Raspberry Pi display" width="560">
 
 - **Use the Android phone as the Raspberry Pi's GPS receiver.** With
   Gadgetbridge phone GPS enabled, Raspberry Pi applications receive location
   updates from the phone without a separate GPS module.
 
-  <img src="docs/assets/android-gps-to-raspberry-pi.svg" alt="Phone GPS positions forwarded to a Raspberry Pi" width="560">
+  <img src="https://raw.githubusercontent.com/hishizuka/gadgetbridge-rpi-link/main/docs/assets/android-gps-to-raspberry-pi.svg" alt="Phone GPS positions forwarded to a Raspberry Pi" width="560">
 
 - **Use the phone as a time source when the Raspberry Pi has no RTC.** The
   library parses Gadgetbridge `setTime(...)` messages into `SetTimeEvent`
@@ -44,13 +44,13 @@ for protocol details.
   arrives only after the BLE connection and Gadgetbridge synchronization, not
   immediately at boot, so timestamps created before then may be incorrect.
 
-  <img src="docs/assets/android-time-to-raspberry-pi.svg" alt="Phone time forwarded to a Raspberry Pi after Gadgetbridge connects" width="560">
+  <img src="https://raw.githubusercontent.com/hishizuka/gadgetbridge-rpi-link/main/docs/assets/android-time-to-raspberry-pi.svg" alt="Phone time forwarded to a Raspberry Pi after Gadgetbridge connects" width="560">
 
 - **Read Google Maps turn-by-turn navigation.** Gadgetbridge converts Android
   navigation notifications into navigation packets that this library parses
   into distance/action/instruction fields.
 
-  <img src="docs/assets/android-navigation-to-raspberry-pi.svg" alt="Google Maps navigation forwarded to a Raspberry Pi" width="560">
+  <img src="https://raw.githubusercontent.com/hishizuka/gadgetbridge-rpi-link/main/docs/assets/android-navigation-to-raspberry-pi.svg" alt="Google Maps navigation forwarded to a Raspberry Pi" width="560">
 
 - **Make simple HTTP requests through the phone.** Fetch text or JSON
   resources, or send data to an external API with `method="POST"` and a
@@ -58,7 +58,7 @@ for protocol details.
   are not supported by the current Gadgetbridge implementation; see
   [HTTP Download Behavior](#http-download-behavior).
 
-  <img src="docs/assets/raspberry-pi-http-via-phone.svg" alt="Raspberry Pi fetching text or JSON through the phone" width="560">
+  <img src="https://raw.githubusercontent.com/hishizuka/gadgetbridge-rpi-link/main/docs/assets/raspberry-pi-http-via-phone.svg" alt="Raspberry Pi fetching text or JSON through the phone" width="560">
 
 - **Trigger Android intents from the Raspberry Pi side.** This can start the
   phone's voice assistant or another Android action that the user

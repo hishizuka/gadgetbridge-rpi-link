@@ -1,6 +1,6 @@
 # gadgetbridge-rpi-link
 
-[English](README.md) | 日本語 | [简体中文](README_zh-CN.md)
+[English](https://github.com/hishizuka/gadgetbridge-rpi-link/blob/main/README.md) | 日本語 | [简体中文](https://github.com/hishizuka/gadgetbridge-rpi-link/blob/main/README_zh-CN.md)
 
 Androidスマートフォンを、Raspberry Piに通知・位置情報・簡易的なインターネット
 アクセスを提供するワイヤレスコンパニオンとして利用します。これらの機能は、
@@ -29,13 +29,13 @@ UIの描画やデータの保存などは、ホストアプリケーション側
   マルチバイト文字については、現状Gadgetbridgeのソースへの小さな修正が必要です。
   [テキストエンコーディング](#テキストエンコーディング)を参照してください。
 
-  <img src="docs/assets/android-notification-to-raspberry-pi.svg" alt="AndroidからRaspberry Piのディスプレイへ転送された通知" width="560">
+  <img src="https://raw.githubusercontent.com/hishizuka/gadgetbridge-rpi-link/main/docs/assets/android-notification-to-raspberry-pi.svg" alt="AndroidからRaspberry Piのディスプレイへ転送された通知" width="560">
 
 - **AndroidスマートフォンをRaspberry PiのGPS受信機として使う。** Gadgetbridgeの
   スマホGPS機能を有効にすると、Raspberry Pi側のアプリケーションはGPSモジュール
   なしでスマートフォンから位置情報の更新を受け取れます。
 
-  <img src="docs/assets/android-gps-to-raspberry-pi.svg" alt="スマホのGPS位置情報をRaspberry Piへ転送" width="560">
+  <img src="https://raw.githubusercontent.com/hishizuka/gadgetbridge-rpi-link/main/docs/assets/android-gps-to-raspberry-pi.svg" alt="スマホのGPS位置情報をRaspberry Piへ転送" width="560">
 
 - **RTCを搭載しないRaspberry Piの時刻をスマートフォンから取得する。** 本ライブラリ
   はGadgetbridgeの`setTime(...)`メッセージを`SetTimeEvent`としてパースし、ホスト
@@ -43,13 +43,13 @@ UIの描画やデータの保存などは、ホストアプリケーション側
   接続とGadgetbridgeの同期後に届くため、それ以前に記録したタイムスタンプは正しく
   ない場合があります。
 
-  <img src="docs/assets/android-time-to-raspberry-pi.svg" alt="Gadgetbridge接続後にスマートフォンの時刻をRaspberry Piへ反映" width="560">
+  <img src="https://raw.githubusercontent.com/hishizuka/gadgetbridge-rpi-link/main/docs/assets/android-time-to-raspberry-pi.svg" alt="Gadgetbridge接続後にスマートフォンの時刻をRaspberry Piへ反映" width="560">
 
 - **Google Mapsのターンバイターンナビゲーションを読み取る。** Gadgetbridgeは
   Androidのナビゲーション通知をナビゲーションパケットに変換し、本ライブラリが
   距離/アクション/指示の各フィールドにパースします。
 
-  <img src="docs/assets/android-navigation-to-raspberry-pi.svg" alt="Google MapsのナビゲーションをRaspberry Piへ転送" width="560">
+  <img src="https://raw.githubusercontent.com/hishizuka/gadgetbridge-rpi-link/main/docs/assets/android-navigation-to-raspberry-pi.svg" alt="Google MapsのナビゲーションをRaspberry Piへ転送" width="560">
 
 - **スマートフォン経由で簡単なHTTPリクエストを行う。** Androidアプリをネットワーク
   ブリッジとして、テキストやJSONリソースの取得、さらに`method="POST"`とリクエスト
@@ -57,7 +57,7 @@ UIの描画やデータの保存などは、ホストアプリケーション側
   Gadgetbridgeの実装ではサポートされていません。
   [HTTPダウンロードの挙動](#httpダウンロードの挙動)を参照してください。
 
-  <img src="docs/assets/raspberry-pi-http-via-phone.svg" alt="Raspberry Piからスマホ経由でテキスト/JSONを取得" width="560">
+  <img src="https://raw.githubusercontent.com/hishizuka/gadgetbridge-rpi-link/main/docs/assets/raspberry-pi-http-via-phone.svg" alt="Raspberry Piからスマホ経由でテキスト/JSONを取得" width="560">
 
 - **Raspberry Pi側からAndroidインテントを発行する。** スマートフォンの音声
   アシスタントの起動など、ユーザーが意図的に許可したAndroidのアクションを実行

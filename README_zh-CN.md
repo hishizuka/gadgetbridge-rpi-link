@@ -1,6 +1,6 @@
 # gadgetbridge-rpi-link
 
-[English](README.md) | [日本語](README_ja.md) | 简体中文
+[English](https://github.com/hishizuka/gadgetbridge-rpi-link/blob/main/README.md) | [日本語](https://github.com/hishizuka/gadgetbridge-rpi-link/blob/main/README_ja.md) | 简体中文
 
 将 Android 手机作为 Raspberry Pi 的无线伴侣，为其提供通知、手机定位和简单的
 互联网访问。所有这些功能均通过一条低功耗 BLE 连接实现。
@@ -26,31 +26,31 @@ Gadgetbridge，并将收到的消息作为 Python 事件处理。UI 绘制、数
   对于 CJK 等多字节文本，目前需要对 Gadgetbridge 源代码进行少量修改。请参阅
   [文本编码](#文本编码)。
 
-  <img src="docs/assets/android-notification-to-raspberry-pi.svg" alt="将 Android 通知转发到 Raspberry Pi 显示屏" width="560">
+  <img src="https://raw.githubusercontent.com/hishizuka/gadgetbridge-rpi-link/main/docs/assets/android-notification-to-raspberry-pi.svg" alt="将 Android 通知转发到 Raspberry Pi 显示屏" width="560">
 
 - **将 Android 手机用作 Raspberry Pi 的 GPS 接收器。** 启用 Gadgetbridge 的手机
   GPS 功能后，Raspberry Pi 应用无需单独的 GPS 模块即可从手机接收位置更新。
 
-  <img src="docs/assets/android-gps-to-raspberry-pi.svg" alt="将手机 GPS 位置转发到 Raspberry Pi" width="560">
+  <img src="https://raw.githubusercontent.com/hishizuka/gadgetbridge-rpi-link/main/docs/assets/android-gps-to-raspberry-pi.svg" alt="将手机 GPS 位置转发到 Raspberry Pi" width="560">
 
 - **在 Raspberry Pi 没有 RTC 时使用手机提供时间。** 本库会将 Gadgetbridge 的
   `setTime(...)`消息解析为`SetTimeEvent`，宿主应用可以将其应用到系统时钟。时间信息
   只会在 BLE 连接和 Gadgetbridge 同步后到达，而不是开机后立即到达，因此在此之前
   记录的时间戳可能不正确。
 
-  <img src="docs/assets/android-time-to-raspberry-pi.svg" alt="Gadgetbridge连接后将手机时间应用到Raspberry Pi" width="560">
+  <img src="https://raw.githubusercontent.com/hishizuka/gadgetbridge-rpi-link/main/docs/assets/android-time-to-raspberry-pi.svg" alt="Gadgetbridge连接后将手机时间应用到Raspberry Pi" width="560">
 
 - **读取 Google Maps 逐向导航。** Gadgetbridge 将 Android 导航通知转换为导航
   数据包，本库再将其解析为距离、动作和指示字段。
 
-  <img src="docs/assets/android-navigation-to-raspberry-pi.svg" alt="将 Google Maps 导航转发到 Raspberry Pi" width="560">
+  <img src="https://raw.githubusercontent.com/hishizuka/gadgetbridge-rpi-link/main/docs/assets/android-navigation-to-raspberry-pi.svg" alt="将 Google Maps 导航转发到 Raspberry Pi" width="560">
 
 - **通过手机发送简单的 HTTP 请求。** 以 Android 应用作为网络桥接，可以获取文本或
   JSON 资源，也可以通过`method="POST"`和请求正文向外部 API 发送数据。当前
   Gadgetbridge 实现不支持二进制负载。请参阅
   [HTTP 下载行为](#http-下载行为)。
 
-  <img src="docs/assets/raspberry-pi-http-via-phone.svg" alt="Raspberry Pi 通过手机获取文本或 JSON" width="560">
+  <img src="https://raw.githubusercontent.com/hishizuka/gadgetbridge-rpi-link/main/docs/assets/raspberry-pi-http-via-phone.svg" alt="Raspberry Pi 通过手机获取文本或 JSON" width="560">
 
 - **从 Raspberry Pi 触发 Android Intent。** 可以启动手机的语音助手，或执行用户
   明确允许的其他 Android 操作。

@@ -27,6 +27,9 @@ classifiers = [
 ]
 
 [project.urls]
+Homepage = "https://github.com/hishizuka/gadgetbridge-rpi-link"
+Repository = "https://github.com/hishizuka/gadgetbridge-rpi-link"
+Issues = "https://github.com/hishizuka/gadgetbridge-rpi-link/issues"
 "Protocol Reference" = "https://www.espruino.com/Gadgetbridge"
 "Upstream Gadgetbridge" = "https://gadgetbridge.org/"
 
