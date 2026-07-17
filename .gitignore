@@ -12,6 +12,7 @@ build/
 dist/
 .venv/
 venv/
+tmp/
 .env
 .env.*
 !.env.example

@@ -25,10 +25,11 @@ for protocol details.
 ## What You Can Do
 
 - **Show Android notifications on a Raspberry Pi display.** Gadgetbridge
-  forwards Android notification add/update/remove packets, and this library
-  parses them into typed notification events that a host UI can render. For
-  CJK or other multibyte text, a small Gadgetbridge source change is currently
-  required; see [Text Encoding](#text-encoding).
+  forwards notification additions, updates, and removals from Android. This
+  library converts them into notification events that are easy to use from
+  Python and render in a host UI. For CJK or other multibyte text, a small
+  Gadgetbridge source change is currently required; see
+  [Text Encoding](#text-encoding).
 
   <img src="https://raw.githubusercontent.com/hishizuka/gadgetbridge-rpi-link/main/docs/assets/android-notification-to-raspberry-pi.svg" alt="Android notification forwarded to a Raspberry Pi display" width="560">
 
@@ -39,23 +40,24 @@ for protocol details.
   <img src="https://raw.githubusercontent.com/hishizuka/gadgetbridge-rpi-link/main/docs/assets/android-gps-to-raspberry-pi.svg" alt="Phone GPS positions forwarded to a Raspberry Pi" width="560">
 
 - **Use the phone as a time source when the Raspberry Pi has no RTC.** The
-  library parses Gadgetbridge `setTime(...)` messages into `SetTimeEvent`
-  objects that a host application can apply to the system clock. The time
+  library converts time information received from Gadgetbridge into a Python
+  event that a host application can apply to the system clock. The time
   arrives only after the BLE connection and Gadgetbridge synchronization, not
   immediately at boot, so timestamps created before then may be incorrect.
 
   <img src="https://raw.githubusercontent.com/hishizuka/gadgetbridge-rpi-link/main/docs/assets/android-time-to-raspberry-pi.svg" alt="Phone time forwarded to a Raspberry Pi after Gadgetbridge connects" width="560">
 
 - **Read Google Maps turn-by-turn navigation.** Gadgetbridge converts Android
-  navigation notifications into navigation packets that this library parses
-  into distance/action/instruction fields.
+  navigation notifications and sends them to the Raspberry Pi. Through this
+  library, Python applications can read turn directions, instructions, and
+  remaining distances.
 
   <img src="https://raw.githubusercontent.com/hishizuka/gadgetbridge-rpi-link/main/docs/assets/android-navigation-to-raspberry-pi.svg" alt="Google Maps navigation forwarded to a Raspberry Pi" width="560">
 
 - **Make simple HTTP requests through the phone.** Fetch text or JSON
   resources, or send data to an external API with `method="POST"` and a
-  request body, using the Android app as the network bridge. Binary payloads
-  are not supported by the current Gadgetbridge implementation; see
+  request body, using the Android app as the network bridge. Binary data
+  is not supported by the current Gadgetbridge implementation; see
   [HTTP Download Behavior](#http-download-behavior).
 
   <img src="https://raw.githubusercontent.com/hishizuka/gadgetbridge-rpi-link/main/docs/assets/raspberry-pi-http-via-phone.svg" alt="Raspberry Pi fetching text or JSON through the phone" width="560">
@@ -64,9 +66,10 @@ for protocol details.
   phone's voice assistant or another Android action that the user
   intentionally allows.
 
-Important limitations: HTTP is a text/small-payload path and normally needs a
-Bangle.js-flavor Gadgetbridge build; CJK and other multibyte UART text needs a
-custom UTF-8 Gadgetbridge build. See [Android App Setup Details](#android-app-setup-details).
+Important limitations: HTTP is intended for text and small transfers and
+normally needs a Bangle.js-flavor Gadgetbridge build; CJK and other multibyte
+UART text needs a custom UTF-8 Gadgetbridge build. See
+[Android App Setup Details](#android-app-setup-details).
 
 **Why BLE?**
 
@@ -112,49 +115,49 @@ the BLE UART service.
    [Android App Setup Details](#android-app-setup-details).
 
 The distribution name is `gadgetbridge-rpi-link`; the Python import name is
-`gadgetbridge_rpi_link`. The parsing and session modules use only the Python
-standard library, while the distribution installs `bluez-peripheral` for BlueZ
-hosting.
+`gadgetbridge_rpi_link`. The package installs `bluez-peripheral` for BlueZ
+hosting. Its other operations use only the Python standard library.
 
 ## Library Scope
 
 Implemented in the package:
 
-- UART frame decoding, TX chunk encoding, and `GB(...)` JSON-ish parsing.
-- Typed events for notifications, find-device requests, phone time
-  (`setTime(...)`), location, navigation, HTTP responses, parse failures, and
-  unknown messages.
+- Converting data received over BLE into messages that Python can use, and
+  splitting outgoing data into sizes suitable for BLE.
+- Events for notifications, find-device requests, phone time, location,
+  navigation, HTTP responses, and other received data.
 - Outgoing GPS power requests, Android intents, and HTTP requests.
-- Async HTTP request tracking and text-oriented download helpers.
+- Matching HTTP requests with responses and saving downloaded text.
 - A BlueZ BLE UART host for Linux.
 
 The library does not render notifications, set system time, or publish GPS
 locations. Host applications provide those adapters.
 
-## Protocol API Examples
+## Sending Data Example
 
-Outgoing messages can be passed as dictionaries. `FrameEncoder` adds the
-framing and trailing newlines required by the Gadgetbridge UART TX path:
+Outgoing messages can be passed as dictionaries. The library converts them
+to the format expected by Gadgetbridge and splits them into smaller byte
+strings that can be sent over BLE:
 
 ```python
 from gadgetbridge_rpi_link import DEFAULT_HTTP_TEXT_URL, GadgetbridgeProtocol
 
 protocol = GadgetbridgeProtocol()
-for chunk in protocol.encode_tx({"t": "info", "msg": "OK"}):
-    # Send `chunk` through the BLE UART TX characteristic.
+for data in protocol.encode_tx({"t": "info", "msg": "OK"}):
+    # Send `data` through the BLE UART TX characteristic.
     ...
 
-for chunk in protocol.encode_tx({"t": "status", "bat": "23"}):
+for data in protocol.encode_tx({"t": "status", "bat": "23"}):
     ...
 
-for chunk in protocol.encode_tx({"t": "http", "url": DEFAULT_HTTP_TEXT_URL}):
+for data in protocol.encode_tx({"t": "http", "url": DEFAULT_HTTP_TEXT_URL}):
     ...
 ```
 
-## Parser Example
+## Receiving Data Example
 
-Incoming Gadgetbridge messages are parsed after the `GB(...)` wrapper is
-received from the UART stream:
+Pass bytes received over BLE UART to the library to reconstruct messages and
+convert them into events for each type of content:
 
 ```python
 from gadgetbridge_rpi_link import GadgetbridgeProtocol
@@ -169,8 +172,8 @@ print(events[0])
 ## System Time Example
 
 For a Raspberry Pi without an RTC, the phone can provide a time source after
-Gadgetbridge connects. The library emits a `SetTimeEvent`; the host application
-is responsible for applying it to the system clock.
+Gadgetbridge connects. The library provides the received time as an event; the
+host application is responsible for applying it to the system clock.
 
 From a source checkout, stop any other BLE host and run the example in dry-run
 mode first:
@@ -179,7 +182,7 @@ mode first:
 PYTHONPATH=src python3 examples/set_system_time.py
 ```
 
-After confirming that `setTime` events arrive and configuring the required
+After confirming that time arrives from the phone and configuring the required
 system permission, pass `--apply` to execute `sudo -n date -u --set ...`:
 
 ```sh
@@ -247,9 +250,9 @@ accepts simple keyboard commands:
 - `h`: run the official text HTTP download test and save it to a local file.
 - `q`: quit.
 
-For the `t` command, enter one raw Gadgetbridge message without the incoming
-`GB(...)` wrapper. Use a plain URL, not a Markdown link. JSON-ish object syntax
-and strict JSON are both accepted, for example:
+For the `t` command, enter the body of one outgoing Gadgetbridge message. Use a
+plain URL, not a Markdown link. JSON-ish object syntax and strict JSON are both
+accepted, for example:
 
 ```text
 {t:"info", msg:"OK"}
@@ -257,11 +260,8 @@ and strict JSON are both accepted, for example:
 {t:"http", url:"https://pur3.co.uk/hello.txt"}
 ```
 
-Use `--auto-gps` only when the host application intentionally wants to request
-Gadgetbridge GPS after receiving `is_gps_active`.
-
-The repository also keeps `examples/callback_bluez_service.py` as a thin source
-checkout wrapper around the same installed command.
+Use `--auto-gps` only when the host should automatically request that GPS be
+turned on after receiving the phone's current GPS state.
 
 Library code can use the BlueZ transport directly from its submodule:
 
@@ -284,7 +284,7 @@ The Android app side has a few important Bangle.js-specific constraints.
 | --- | --- |
 | Android notifications | Allow notification access for Gadgetbridge. Check its notification filters if only some apps should be forwarded. |
 | Phone location | Grant Android location permission, then enable `Use phone GPS data` and choose a practical update interval. See [Phone Location](#phone-location). |
-| Google Maps navigation | Allow its notifications. If `nav` packets are empty, see [Navigation Notifications](#navigation-notifications). |
+| Google Maps navigation | Allow its notifications. If turn directions or distances are missing, see [Navigation Notifications](#navigation-notifications). |
 | Android intents | Enable `Allow Intents`. See [Android Intents](#android-intents). |
 | HTTP text/JSON requests | Use a Bangle.js-flavor build, or follow the official [Internet Helper setup](https://gadgetbridge.org/basics/integrations/internet-helper/) with a regular build. See [HTTP Requests](#http-requests). |
 
@@ -295,7 +295,7 @@ Which Gadgetbridge build you need depends on the features you want:
 - Notifications, phone GPS, navigation, and Android intents work with the
   regular Gadgetbridge releases. Follow the download links on the
   [official Gadgetbridge website](https://gadgetbridge.org/) to install one.
-- For HTTP requests (`t:"http"`), the simplest route is a Bangle.js-flavor
+- For HTTP requests, the simplest route is a Bangle.js-flavor
   build with direct internet access. Get one in either of these ways:
   1. Install the `Bangle.js Gadgetbridge` app directly, following the
      [Espruino Gadgetbridge documentation](https://www.espruino.com/Gadgetbridge).
@@ -309,16 +309,12 @@ Which Gadgetbridge build you need depends on the features you want:
 
 ### Text Encoding
 
-Gadgetbridge's Bangle.js UART implementation currently uses
-`StandardCharsets.ISO_8859_1` for the UART string path in
-`app/src/main/java/nodomain/freeyourgadget/gadgetbridge/service/devices/banglejs/BangleJSDeviceSupport.java`.
-In the checked source this appears in both the
-phone-to-device transmit path (`uartTx(...)`) and the device-to-phone receive
-path. If you need to exchange multibyte text directly over this UART protocol,
-you need a custom Gadgetbridge build that changes those Bangle.js UART charset
-uses to `StandardCharsets.UTF_8`. With that custom build installed in Android
-developer mode, UTF-8 multibyte messages can be received by this library.
-Building from source is described in
+Gadgetbridge's Bangle.js BLE UART currently uses Latin-1 when sending and
+receiving strings. To exchange multibyte text such as CJK characters, you need
+a custom Gadgetbridge build that changes the character encoding in both
+directions to UTF-8. With that custom build installed in Android developer
+mode, UTF-8 multibyte messages can be received by this library. Building from
+source is described in
 [Getting A Gadgetbridge Build](#getting-a-gadgetbridge-build).
 
 ### Phone Location
@@ -330,19 +326,18 @@ updates from Android even when the Raspberry Pi has no physical GPS receiver.
 ### Navigation Notifications
 
 Google Maps navigation is notification-based. Gadgetbridge reads turn-by-turn
-instructions from Android notifications and sends them as `nav` packets. On
+instructions from Android notifications and sends them to the Raspberry Pi. On
 recent Android versions, Google Maps live notification categories can hide the
-instruction details from Gadgetbridge. If `nav` packets arrive without fields
-such as `action` and `distance`, disable the Google Maps `Live Updates`,
+instruction details from Gadgetbridge. If turn directions or distances are
+missing, disable the Google Maps `Live Updates`,
 `Live info`, or similarly named notification category in Android's Google Maps
 notification settings.
 
 ### Android Intents
 
-Outgoing `t:"intent"` packets require the registered device setting `Allow
-Intents` (`device_intents`). In Gadgetbridge source, `handleIntent(...)` rejects
-intent packets when that switch is off. Gadgetbridge's Japanese UI labels this
-setting `インテントを許可する`, and its summary says background use may require
+To send Android intents, enable `Allow Intents` in the registered device
+settings. Gadgetbridge rejects intent requests from the Raspberry Pi while
+this setting is off. Its description notes that background use may require
 Android's display-over-other-apps permission.
 
 ### HTTP Requests
@@ -351,41 +346,39 @@ For HTTP requests, use a Bangle.js-flavor build or configure a regular
 Gadgetbridge release by following the official
 [Internet Helper setup](https://gadgetbridge.org/basics/integrations/internet-helper/).
 After registering the Bangle.js device, enable `Allow Internet Access`
-(`device_internet_access`) in its settings.
+in its settings.
 
 ## HTTP Download Behavior
 
-`GadgetbridgeSession.download_http_file(...)` writes the `resp` field from a
-Gadgetbridge HTTP response. Current Android Gadgetbridge Bangle.js HTTP support
-is text-oriented, so this helper should be treated as a text/small-payload
-download path.
+The included HTTP file-saving feature writes content received from
+Gadgetbridge to a file. Current Android Gadgetbridge Bangle.js HTTP support is
+text-oriented, so use it for text and small downloads.
 
-The `binary=None|True|False` option only controls how an already received
-payload is written to disk:
+The `binary=None|True|False` option only controls how already received data is
+written to disk:
 
-- `None` writes string payloads as binary only when the output path has a known
+- `None` writes strings as binary only when the output path has a known
   binary suffix such as `.bin`, `.fit`, or `.zip`.
 - `True` preserves legacy Gadgetbridge binary strings as Latin-1 bytes when
-  possible, falling back to UTF-8 for Unicode text decoded from `atob(...)`.
-- `False` writes string payloads as text using the requested encoding, even when
+  possible, falling back to UTF-8 for Unicode text recovered from Base64.
+- `False` writes string data as text using the requested encoding, even when
   the output path suffix would normally be treated as binary.
 
-Byte payloads are always written as bytes. The library intentionally does not
+Data already received as bytes is written unchanged. The library does not
 sniff response content; hosts should define the expected download path or pass
 `binary=True|False` when that write contract is clearer.
 
 Arbitrary binary HTTP downloads are not supported by the current Gadgetbridge
-Android-side `t:"http"` implementation. Large binary responses returned through
-the Android text path can arrive with replacement characters already inserted
+Android HTTP feature. Large binary responses returned through the Android text
+path can arrive with replacement characters already inserted
 by Gadgetbridge and may not be recoverable by the host. Supporting general
-binary downloads requires changing the Gadgetbridge-side HTTP handler to use a
-byte-preserving response path, for example a raw byte transport or a documented
-base64/`atob(...)` contract instead of a text reader.
+binary downloads requires changing Gadgetbridge to preserve bytes in transit,
+for example by sending raw bytes or encoding them as Base64 text.
 
 ## Development Notes
 
 The source tree does not require hard-coded BLE addresses, device hostnames, or
-private local filesystem paths. Tests use synthetic payloads, `example.com`,
+private local filesystem paths. Tests use synthetic data, `example.com`,
 and the public Espruino text sample URL. Generated files such as `__pycache__`,
 local handoff notes, and device-specific logs should not be included in
 published packages.
