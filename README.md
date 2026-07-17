@@ -85,10 +85,17 @@ setups such as bike computers or wearable displays.
 This package requires Python 3.13 or newer and Linux with BlueZ when it hosts
 the BLE UART service.
 
-1. Install the package:
+1. Install the package from PyPI:
 
    ```sh
    pip install gadgetbridge-rpi-link
+   ```
+
+   If you use `uv`, allow pre-releases because the `bluez-peripheral`
+   dependency is currently published as an alpha release:
+
+   ```sh
+   uv pip install --prerelease=allow gadgetbridge-rpi-link
    ```
 
 2. Start the included BLE host for a manual smoke test:
