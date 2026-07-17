@@ -63,8 +63,9 @@ for protocol details.
   <img src="https://raw.githubusercontent.com/hishizuka/gadgetbridge-rpi-link/main/docs/assets/raspberry-pi-http-via-phone.svg" alt="Raspberry Pi fetching text or JSON through the phone" width="560">
 
 - **Trigger Android intents from the Raspberry Pi side.** This can start the
-  phone's voice assistant or another Android action that the user
-  intentionally allows.
+  phone's voice assistant, run an arbitrary command through
+  [Termux](https://termux.dev/), or trigger another Android action that the
+  user intentionally allows.
 
 Important limitations: HTTP is intended for text and small transfers and
 normally needs a Bangle.js-flavor Gadgetbridge build; CJK and other multibyte
@@ -226,6 +227,28 @@ session.send_intent(
     flags=["FLAG_ACTIVITY_NEW_TASK"],
 )
 ```
+
+Intents can also carry `target`, `package`, `class_name`, and `extra`. For
+example, this calls the `RUN_COMMAND` service of
+[Termux](https://termux.dev/) and runs an arbitrary script stored on the
+phone:
+
+```python
+session.send_intent(
+    "com.termux.RUN_COMMAND",
+    target="service",
+    package="com.termux",
+    class_name="com.termux.app.RunCommandService",
+    extra={
+        "com.termux.RUN_COMMAND_PATH": "/data/data/com.termux/files/home/run-task.sh",
+    },
+)
+```
+
+On the Termux side, set `allow-external-apps = true` in `termux.properties`,
+and grant Gadgetbridge the Termux run-command permission in the Android app
+settings. Note that Gadgetbridge intent extras are effectively string-only,
+so booleans and other types are not delivered as their original types.
 
 ## BlueZ Host Example
 

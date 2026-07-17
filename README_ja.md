@@ -60,8 +60,8 @@ UIの描画やデータの保存などは、ホストアプリケーション側
   <img src="https://raw.githubusercontent.com/hishizuka/gadgetbridge-rpi-link/main/docs/assets/raspberry-pi-http-via-phone.svg" alt="Raspberry Piからスマホ経由でテキスト/JSONを取得" width="560">
 
 - **Raspberry Pi側からAndroidインテントを発行する。** スマートフォンの音声
-  アシスタントの起動など、ユーザーが意図的に許可したAndroidのアクションを実行
-  できます。
+  アシスタントの起動や、[Termux](https://termux.dev/)経由での任意コマンドの
+  実行など、ユーザーが意図的に許可したAndroidのアクションを実行できます。
 
 重要な制約として、HTTPはテキストおよび小さなデータ向けで、通常はBangle.js
 フレーバーのGadgetbridgeビルドが必要です。また、CJKなどのマルチバイトUART
@@ -225,6 +225,27 @@ session.send_intent(
     flags=["FLAG_ACTIVITY_NEW_TASK"],
 )
 ```
+
+インテントには`target`、`package`、`class_name`、`extra`も指定できます。次の
+例は[Termux](https://termux.dev/)の`RUN_COMMAND`サービスを呼び出し、
+スマートフォン上に置いた任意のスクリプトを実行します:
+
+```python
+session.send_intent(
+    "com.termux.RUN_COMMAND",
+    target="service",
+    package="com.termux",
+    class_name="com.termux.app.RunCommandService",
+    extra={
+        "com.termux.RUN_COMMAND_PATH": "/data/data/com.termux/files/home/run-task.sh",
+    },
+)
+```
+
+Termux側では`termux.properties`で`allow-external-apps = true`を設定し、
+Androidのアプリ設定でGadgetbridgeへTermuxのコマンド実行パーミッションを
+付与してください。なお、Gadgetbridgeのインテントextraは実質的に文字列のみ
+で、booleanなどを正しい型では渡せません。
 
 ## BlueZホストの例
 

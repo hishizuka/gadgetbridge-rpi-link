@@ -52,8 +52,9 @@ Gadgetbridge，并将收到的消息作为 Python 事件处理。UI 绘制、数
 
   <img src="https://raw.githubusercontent.com/hishizuka/gadgetbridge-rpi-link/main/docs/assets/raspberry-pi-http-via-phone.svg" alt="Raspberry Pi 通过手机获取文本或 JSON" width="560">
 
-- **从 Raspberry Pi 触发 Android Intent。** 可以启动手机的语音助手，或执行用户
-  明确允许的其他 Android 操作。
+- **从 Raspberry Pi 触发 Android Intent。** 可以启动手机的语音助手、通过
+  [Termux](https://termux.dev/) 运行任意命令，或执行用户明确允许的其他
+  Android 操作。
 
 重要限制：HTTP 适用于文本和小型数据，通常需要 Bangle.js 版本的 Gadgetbridge；
 CJK 等多字节 UART 文本需要支持 UTF-8 的自定义 Gadgetbridge 版本。详情请参阅
@@ -204,6 +205,27 @@ session.send_intent(
     flags=["FLAG_ACTIVITY_NEW_TASK"],
 )
 ```
+
+Intent 还可以指定`target`、`package`、`class_name`和`extra`。例如，以下代码
+会调用 [Termux](https://termux.dev/) 的`RUN_COMMAND`服务，运行存放在手机上的
+任意脚本：
+
+```python
+session.send_intent(
+    "com.termux.RUN_COMMAND",
+    target="service",
+    package="com.termux",
+    class_name="com.termux.app.RunCommandService",
+    extra={
+        "com.termux.RUN_COMMAND_PATH": "/data/data/com.termux/files/home/run-task.sh",
+    },
+)
+```
+
+在 Termux 侧，需要在`termux.properties`中设置`allow-external-apps = true`，
+并在 Android 的应用设置中为 Gadgetbridge 授予 Termux 的命令执行权限。另外，
+Gadgetbridge 的 intent extra 实际上仅支持字符串，boolean 等类型无法以原始
+类型传递。
 
 ## BlueZ 主机示例
 
