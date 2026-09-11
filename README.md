@@ -2,6 +2,8 @@
 
 English | [日本語](https://github.com/hishizuka/gadgetbridge-rpi-link/blob/main/README_ja.md) | [简体中文](https://github.com/hishizuka/gadgetbridge-rpi-link/blob/main/README_zh-CN.md)
 
+<img src="https://raw.githubusercontent.com/hishizuka/gadgetbridge-rpi-link/main/docs/assets/gadgetbridge-rpi-link-overview.svg" alt="Android and Raspberry Pi connected over BLE for notifications, GPS, time, navigation, HTTP, and Android intents" width="1280">
+
 Use an Android phone as a wireless companion for a Raspberry Pi: notifications,
 phone GPS, and simple internet access over a single battery-friendly BLE
 connection.

@@ -2,6 +2,8 @@
 
 [English](https://github.com/hishizuka/gadgetbridge-rpi-link/blob/main/README.md) | 日本語 | [简体中文](https://github.com/hishizuka/gadgetbridge-rpi-link/blob/main/README_zh-CN.md)
 
+<img src="https://raw.githubusercontent.com/hishizuka/gadgetbridge-rpi-link/main/docs/assets/gadgetbridge-rpi-link-overview.svg" alt="AndroidとRaspberry PiをBLEで接続し、通知・GPS・時刻・ナビゲーション・HTTP・Androidインテントを利用" width="1280">
+
 Androidスマートフォンを、Raspberry Piに通知・位置情報・簡易的なインターネット
 アクセスを提供するワイヤレスコンパニオンとして利用します。これらの機能は、
 省電力な1本のBLE接続で利用できます。

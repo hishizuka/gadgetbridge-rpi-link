@@ -2,6 +2,8 @@
 
 [English](https://github.com/hishizuka/gadgetbridge-rpi-link/blob/main/README.md) | [日本語](https://github.com/hishizuka/gadgetbridge-rpi-link/blob/main/README_ja.md) | 简体中文
 
+<img src="https://raw.githubusercontent.com/hishizuka/gadgetbridge-rpi-link/main/docs/assets/gadgetbridge-rpi-link-overview.svg" alt="通过 BLE 连接 Android 与 Raspberry Pi，实现通知、GPS、时间、导航、HTTP 和 Android Intent 功能" width="1280">
+
 将 Android 手机作为 Raspberry Pi 的无线伴侣，为其提供通知、手机定位和简单的
 互联网访问。所有这些功能均通过一条低功耗 BLE 连接实现。
 
