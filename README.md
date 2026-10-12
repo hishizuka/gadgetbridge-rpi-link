@@ -133,6 +133,11 @@ Implemented in the package:
 - Matching HTTP requests with responses and saving downloaded text.
 - A BlueZ BLE UART host for Linux.
 
+Incoming hexadecimal control escapes (`\x00`–`\x1f` and `\x7f`–`\x9f`)
+are discarded during message normalization. Literal escaped text such as
+`\\x0d`, standard JSON newline/tab escapes, and HTTP response content are
+preserved.
+
 The library does not render notifications, set system time, or publish GPS
 locations. Host applications provide those adapters.
 

@@ -44,6 +44,7 @@ class GadgetbridgeParser:
     _SET_TIME_RE = re.compile(r"^setTime\((\d+)\);E\.setTimeZone\((\S+)\);")
     _KEY_RE = re.compile(r"([A-Za-z_][\w-]*)\s*:")
     _ATOB_RE = re.compile(r'atob\("([^"]+)"\)')
+    _HEX_CONTROL_RE = re.compile(r"x(?:[01][0-9a-fA-F]|7[fF]|[89][0-9a-fA-F])")
     _HTTP_RESP_PREFIX_RE = re.compile(
         r'^\s*\{\s*"t"\s*:\s*"http"\s*,\s*'
         r'(?:"id"\s*:\s*"(?P<id>[^"]*)"\s*,\s*)?'
@@ -164,7 +165,7 @@ class GadgetbridgeParser:
 
     def _normalize_jsonish(self, message: str) -> str:
         message = self._quote_unquoted_keys(message)
-        return self._replace_atob_expressions(message)
+        return self._normalize_string_expressions(message)
 
     @classmethod
     def _quote_unquoted_keys(cls, message: str) -> str:
@@ -210,22 +211,35 @@ class GadgetbridgeParser:
         return "".join(result)
 
     @classmethod
-    def _replace_atob_expressions(cls, message: str) -> str:
+    def _normalize_string_expressions(cls, message: str) -> str:
         result: list[str] = []
         index = 0
         in_string = False
         escaped = False
+        # Keep HTTP response bytes available to the existing fallback parser.
+        strip_hex_controls = not (
+            cls._HTTP_RESP_PREFIX_RE.match(message)
+            or cls._HTTP_ERR_PREFIX_RE.match(message)
+        )
 
         while index < len(message):
             char = message[index]
             if in_string:
-                result.append(char)
                 if escaped:
                     escaped = False
+                    if (
+                        strip_hex_controls
+                        and char == "x"
+                        and cls._HEX_CONTROL_RE.match(message, index)
+                    ):
+                        result.pop()
+                        index += 3
+                        continue
                 elif char == "\\":
                     escaped = True
                 elif char == '"':
                     in_string = False
+                result.append(char)
                 index += 1
                 continue
 

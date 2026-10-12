@@ -62,6 +62,70 @@ class ParserTest(unittest.TestCase):
         self.assertIsInstance(remove, NotificationRemoveEvent)
         self.assertEqual(remove.id, 10)
 
+    def test_notification_discards_hexadecimal_control_escapes(self):
+        codes = (*range(0x20), *range(0x7F, 0xA0))
+        for message_type in ("notify", "notify~"):
+            for code in codes:
+                for digits in (f"{code:02x}", f"{code:02X}"):
+                    with self.subTest(message_type=message_type, digits=digits):
+                        event = self.parse_one(
+                            f'GB({{t:"{message_type}",body:"before\\x{digits}after"}})'
+                        )
+                        self.assertIsInstance(
+                            event, (NotificationAddEvent, NotificationUpdateEvent)
+                        )
+                        self.assertEqual(event.body, "beforeafter")
+
+    def test_notification_preserves_unicode_and_json_line_breaks(self):
+        event = self.parse_one(
+            r'GB({"t":"notify","body":"\u25a0notice\x0d\nnext\titem"})'
+        )
+
+        self.assertIsInstance(event, NotificationAddEvent)
+        self.assertEqual(event.body, "■notice\nnext\titem")
+
+    def test_notification_preserves_literal_hexadecimal_escape_text(self):
+        body = r"\x00 \x0d \x1f \x7f \x9f \x41"
+        event = self.parse_one(
+            'GB(' + json.dumps({"t": "notify", "body": body}) + ')'
+        )
+
+        self.assertIsInstance(event, NotificationAddEvent)
+        self.assertEqual(event.body, body)
+
+    def test_other_hexadecimal_and_invalid_escapes_remain_parse_errors(self):
+        for escape in (
+            r"\x20",
+            r"\x41",
+            r"\x7e",
+            r"\xa0",
+            r"\xff",
+            r"\x",
+            r"\x0",
+            r"\x1g",
+        ):
+            with self.subTest(escape=escape):
+                event = self.parse_one(f'GB({{t:"notify",body:"{escape}"}})')
+
+                self.assertIsInstance(event, ParseErrorEvent)
+                self.assertIn(escape, event.normalized_text)
+
+    def test_hexadecimal_control_removal_preserves_following_escapes(self):
+        event = self.parse_one(
+            r'GB({t:"notify",body:"a\\\x0d\x00\"b\\"})'
+        )
+
+        self.assertIsInstance(event, NotificationAddEvent)
+        self.assertEqual(event.body, 'a\\"b\\')
+
+    def test_http_response_preserves_hexadecimal_control_bytes(self):
+        event = self.parse_one(
+            r'GB({"t":"http","id":"binary","resp":"a\x00b\x0dc\x7fd\x9fe"})'
+        )
+
+        self.assertIsInstance(event, HttpResponseEvent)
+        self.assertEqual(event.response, "a\x00b\x0dc\x7fd\x9fe")
+
     def test_find_and_gps_active_messages(self):
         find = self.parse_one('GB({t:"find",n:true})')
         gps_active = self.parse_one('GB({t:"is_gps_active"})')
