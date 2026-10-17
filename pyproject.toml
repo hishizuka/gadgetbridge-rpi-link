@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "gadgetbridge-rpi-link"
-version = "0.1.0"
+version = "0.1.1"
 description = "Unofficial Gadgetbridge UART link toolkit for small Linux devices."
 readme = "README.md"
 requires-python = ">=3.13"
